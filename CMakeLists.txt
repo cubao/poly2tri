@@ -15,11 +15,13 @@ project(
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # set(CMAKE_BUILD_TYPE "Debug")
 if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE
-      "Release"                                                                                                                                                                                                                                   CACHE STRING "" FORCE)
+      "Release"
+      CACHE STRING "" FORCE)
   message(STATUS "Set build type to default: ${CMAKE_BUILD_TYPE}")
 else()
   message(STATUS "Your build type: ${CMAKE_BUILD_TYPE}")
@@ -32,12 +34,13 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 endif()
 
-file(GLOB SOURCES poly2tri/common/*.cc poly2tri/sweep/*.cc)
+file(GLOB SOURCES poly2tri/common/*.cc poly2tri/sweep/*.cc poly2tri/main.cpp)
 file(GLOB HEADERS poly2tri/*.h poly2tri/common/*.h poly2tri/sweep/*.h)
 
 # TODO, use set(PYBIND11_NEWPYTHON ON)?
 # https://scikit-build-core.readthedocs.io/en/latest/getting_started.html
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(pybind11 CONFIG REQUIRED)
 python_add_library(_core MODULE ${SOURCES} ${HEADERS} WITH_SOABI)
 target_link_libraries(_core PRIVATE pybind11::headers)
 target_include_directories(_core PRIVATE src)
