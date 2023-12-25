@@ -19,10 +19,10 @@ else()
 endif()
 
 if(P2T_BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(unittest)
+  enable_testing()
+  add_subdirectory(unittest)
 endif()
 
 if(P2T_BUILD_TESTBED)
-    add_subdirectory(testbed)
+  add_subdirectory(testbed)
 endif()
